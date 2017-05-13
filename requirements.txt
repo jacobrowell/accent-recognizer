@@ -1,2 +1,4 @@
-PyQt5>=5.8
-qtawesome>=0.4
+scipy
+scikits.talkbox
+PyQt5
+qtawesome

@@ -1,3 +1,5 @@
+# -*- coding: utf-8 -*-
+
 import numpy as np
 import scipy.io.wavfile
 from scikits.talkbox.features import mfcc

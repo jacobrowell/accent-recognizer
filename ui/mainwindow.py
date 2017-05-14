@@ -166,13 +166,15 @@ class MainWindow(QMainWindow):
             self.proceed_to_2()
         else:
             alert = QMessageBox()
-            alert.setText("Select a *.wav file")
+            alert.setWindowTitle("Помилка")
+            alert.setText("Оберіть коректний *.wav файл")
             alert.exec_()
 
     def recognize_audio(self):
         method = self.method_select.currentText()
         if method != "MFCC-NN":
             alert = QMessageBox()
+            alert.setWindowTitle("Помилка")
             alert.setText("Даний метод ще не підтримується")
             alert.exec_()
             self.method_select.setCurrentIndex(0)

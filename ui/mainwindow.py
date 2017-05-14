@@ -4,6 +4,9 @@ from PyQt5.QtWidgets import *
 from PyQt5.QtCore import *
 import qtawesome as qta
 import os
+from methods.classification.neuralnetwork import NNClassifier
+from methods.features.mfcc import MFCC
+from tempfile import TemporaryFile
 
 
 class MainWindow(QMainWindow):
@@ -27,6 +30,9 @@ class MainWindow(QMainWindow):
 
         self.width = 500
         self.height = 300
+
+        self.file_name = None
+        self.cache_file = TemporaryFile()
 
         self.init_ui()
 
@@ -124,7 +130,7 @@ class MainWindow(QMainWindow):
         f.setPointSize(24)
         self.result_text.setFont(f)
         self.finish_button = QPushButton("Done")
-        self.finish_button.clicked.connect(self.close)
+        self.finish_button.clicked.connect(self.exit)
 
         h4 = QHBoxLayout()
         v4 = QVBoxLayout()
@@ -156,6 +162,7 @@ class MainWindow(QMainWindow):
         file_name = file_dialog.getOpenFileName(self, "Select audio", os.path.expanduser('~'), "*.wav")[0]
         print file_name
         if len(file_name) > 0:
+            self.file_name = file_name
             self.proceed_to_2()
         else:
             alert = QMessageBox()
@@ -170,7 +177,18 @@ class MainWindow(QMainWindow):
             alert.exec_()
             self.method_select.setCurrentIndex(0)
         else:
-            print "recognizing..."
             self.proceed_to_3()
-            t = QTimer()
-            t.singleShot(3000, self.proceed_to_4)
+            print "recognizing..."
+
+            mfcc = MFCC()
+            mfcc.process(self.file_name, self.cache_file)
+
+            classifier = NNClassifier()
+            self.cache_file.seek(0)
+            classifier.classify(self.cache_file)
+
+            self.proceed_to_4()
+
+    def exit(self):
+        self.cache_file.close()
+        self.close()

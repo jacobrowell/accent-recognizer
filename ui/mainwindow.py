@@ -37,7 +37,7 @@ class MainWindow(QMainWindow):
         self.init_ui()
 
     def init_ui(self):
-        self.setWindowTitle("Accent recognition system")
+        self.setWindowTitle("Система розпізнавання акцентів")
 
         self.setup_screen_1()
         self.setup_screen_2()
@@ -54,7 +54,7 @@ class MainWindow(QMainWindow):
     def setup_screen_1(self):
         self.screen_1.setFixedSize(self.width, self.height)
 
-        self.load_file = QPushButton("Load file", self.screen_1)
+        self.load_file = QPushButton("Відкрити файл", self.screen_1)
         self.load_file.setMinimumHeight(50)
         self.load_file.setMinimumWidth(160)
         self.load_file.clicked.connect(self.load_audio)
@@ -79,7 +79,7 @@ class MainWindow(QMainWindow):
         self.method_select.addItem("MFCC-HMM")
         self.method_select.addItem("LPCC-HMM")
 
-        self.method_proceed = QPushButton("Proceed", self.screen_2)
+        self.method_proceed = QPushButton("Далі", self.screen_2)
         self.method_proceed.clicked.connect(self.recognize_audio)
 
         h2 = QHBoxLayout()
@@ -102,7 +102,7 @@ class MainWindow(QMainWindow):
         self.spinner.setIcon(spin_icon)
         self.spinner.setFlat(True)
         self.spinner.setIconSize(QSize(64, 64))
-        self.status = QLabel("recognizing...")
+        self.status = QLabel("Розпізнавання...")
 
         h3 = QHBoxLayout()
         v3 = QVBoxLayout()
@@ -119,17 +119,17 @@ class MainWindow(QMainWindow):
         self.screen_4.setFixedSize(self.width, self.height)
         self.screen_4.setVisible(False)
 
-        self.accent_label = QLabel("Accent:")
+        self.accent_label = QLabel("Розпізнано акцент:")
         self.accent_label.setAlignment(Qt.AlignCenter)
         f = self.accent_label.font()
         f.setBold(True)
         self.accent_label.setFont(f)
-        self.result_text = QLabel("RU\t\t0.8")
+        self.result_text = QLabel("RU")
         self.result_text.setAlignment(Qt.AlignCenter)
         f = self.result_text.font()
         f.setPointSize(24)
         self.result_text.setFont(f)
-        self.finish_button = QPushButton("Done")
+        self.finish_button = QPushButton("Завершити")
         self.finish_button.clicked.connect(self.exit)
 
         h4 = QHBoxLayout()
@@ -159,7 +159,7 @@ class MainWindow(QMainWindow):
     def load_audio(self):
         print "loading file..."
         file_dialog = QFileDialog(self)
-        file_name = file_dialog.getOpenFileName(self, "Select audio", os.path.expanduser('~'), "*.wav")[0]
+        file_name = file_dialog.getOpenFileName(self, "Оберіть звуковий файл", os.path.expanduser('~'), "*.wav")[0]
         print file_name
         if len(file_name) > 0:
             self.file_name = file_name
@@ -173,7 +173,7 @@ class MainWindow(QMainWindow):
         method = self.method_select.currentText()
         if method != "MFCC-NN":
             alert = QMessageBox()
-            alert.setText("The method is not supported yet")
+            alert.setText("Даний метод ще не підтримується")
             alert.exec_()
             self.method_select.setCurrentIndex(0)
         else:

@@ -31,16 +31,20 @@ class MainWindow(QMainWindow):
     def init_ui(self):
         self.setWindowTitle("Accent recognition system")
 
+        self.setup_screen_1()
+        self.setup_screen_2()
+        self.setup_screen_3()
+        self.setup_screen_4()
+
+        self.setFixedSize(self.width, self.height)
+        r = self.geometry()
+        r.moveCenter(QApplication.desktop().availableGeometry().center())
+        self.setGeometry(r)
+
+        self.show()
+
+    def setup_screen_1(self):
         self.screen_1.setFixedSize(self.width, self.height)
-        self.screen_2.setFixedSize(self.width, self.height)
-        self.screen_3.setFixedSize(self.width, self.height)
-        self.screen_4.setFixedSize(self.width, self.height)
-
-        self.screen_2.setVisible(False)
-        self.screen_3.setVisible(False)
-        self.screen_4.setVisible(False)
-
-        # screen 1 setup
 
         self.load_file = QPushButton("Load file", self.screen_1)
         self.load_file.setMinimumHeight(50)
@@ -55,7 +59,9 @@ class MainWindow(QMainWindow):
         v1.addLayout(h1)
         self.screen_1.setLayout(v1)
 
-        # screen 2 setup
+    def setup_screen_2(self):
+        self.screen_2.setFixedSize(self.width, self.height)
+        self.screen_2.setVisible(False)
 
         self.method_select = QComboBox(self.screen_2)
         self.method_select.addItem("MFCC-NN")
@@ -79,7 +85,9 @@ class MainWindow(QMainWindow):
         h2.addStretch()
         self.screen_2.setLayout(h2)
 
-        # screen 3 setup
+    def setup_screen_3(self):
+        self.screen_3.setFixedSize(self.width, self.height)
+        self.screen_3.setVisible(False)
 
         self.spinner = QPushButton()
         spin_icon = qta.icon("fa.spinner", animation=qta.Spin(self.spinner))
@@ -99,7 +107,10 @@ class MainWindow(QMainWindow):
         h3.addStretch()
         self.screen_3.setLayout(h3)
 
-        # screen 4 setup
+    def setup_screen_4(self):
+        self.screen_4.setFixedSize(self.width, self.height)
+        self.screen_4.setVisible(False)
+
         self.accent_label = QLabel("Accent:")
         self.accent_label.setAlignment(Qt.AlignCenter)
         f = self.accent_label.font()
@@ -124,13 +135,6 @@ class MainWindow(QMainWindow):
         h4.addLayout(v4)
         h4.addStretch()
         self.screen_4.setLayout(h4)
-
-        self.setFixedSize(self.width, self.height)
-        r = self.geometry()
-        r.moveCenter(QApplication.desktop().availableGeometry().center())
-        self.setGeometry(r)
-
-        self.show()
 
     def proceed_to_2(self):
         self.screen_1.setVisible(False)

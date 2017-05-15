@@ -4,6 +4,7 @@ from PyQt5.QtWidgets import *
 from PyQt5.QtCore import *
 import qtawesome as qta
 import os
+from glob import glob
 from methods.classification.neuralnetwork import NNClassifier
 from methods.features.mfcc import MFCC
 from tempfile import TemporaryFile
@@ -124,7 +125,7 @@ class MainWindow(QMainWindow):
         f = self.accent_label.font()
         f.setBold(True)
         self.accent_label.setFont(f)
-        self.result_text = QLabel("RU")
+        self.result_text = QLabel("не визначено")
         self.result_text.setAlignment(Qt.AlignCenter)
         f = self.result_text.font()
         f.setPointSize(24)
@@ -185,11 +186,25 @@ class MainWindow(QMainWindow):
             mfcc = MFCC()
             mfcc.process(self.file_name, self.cache_file)
 
-            classifier = NNClassifier()
-            self.cache_file.seek(0)
-            classifier.classify(self.cache_file)
+            models = glob("models/model*.xml")
+            models.sort()
 
-            self.proceed_to_4()
+            if len(models) < 1:
+                print "ERROR: no models found"
+                alert = QMessageBox()
+                alert.setWindowTitle("Помилка")
+                alert.setText("Даний метод ще не підтримується")
+                alert.exec_()
+            else:
+                model = models[-1]
+                print "using model: {}".format(model)
+
+                classifier = NNClassifier(model)
+                self.cache_file.seek(0)
+                accent, prob = classifier.classify(self.cache_file)
+
+                self.result_text.setText("{}\t\t{}".format(accent, round(prob, 2)))
+                self.proceed_to_4()
 
     def exit(self):
         self.cache_file.close()

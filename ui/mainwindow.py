@@ -161,7 +161,7 @@ class MainWindow(QMainWindow):
         print "loading file..."
         file_dialog = QFileDialog(self)
         file_name = file_dialog.getOpenFileName(self, "Оберіть звуковий файл", os.path.expanduser('~'), "*.wav")[0]
-        print file_name
+
         if len(file_name) > 0:
             self.file_name = file_name
             self.proceed_to_2()

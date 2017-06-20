@@ -1,7 +1,6 @@
 scipy
 scikits.talkbox
-PyQt5
-qtawesome
 pybrain
 pybrain2
 numpy
+pydub

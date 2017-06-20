@@ -1,11 +1,7 @@
-# -*- coding: utf-8 -*-
+from prepare_data.move_files import move_files
+from prepare_data.cut_speech import cut_speech
+from prepare_data.prepare_mfcc import prepare_mfcc
 
-import sys
-from PyQt5.QtWidgets import QApplication
-from ui.mainwindow import MainWindow
-
-
-if __name__ == "__main__":
-    app = QApplication(sys.argv)
-    w = MainWindow()
-    sys.exit(app.exec_())
+move_files()
+cut_speech()
+prepare_mfcc()

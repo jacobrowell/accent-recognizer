@@ -1,6 +1,6 @@
+numpy
 scipy
 scikits.talkbox
 pybrain
 pybrain2
-numpy
 pydub

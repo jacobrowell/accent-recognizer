@@ -6,22 +6,27 @@ from pybrain.structure import TanhLayer
 import json
 from time import time
 
-samples = open("samples.json", "r")
-accents = json.load(samples)
 
-net = buildNetwork(13, 3, 7, hiddenclass=TanhLayer)
+def train():
+    samples = open("samples.json", "r")
+    accents = json.load(samples)
 
-ds = SupervisedDataSet(13, 7)
+    net = buildNetwork(13, 3, 7, hiddenclass=TanhLayer)
 
-for accent in accents:
-    samples = accents[accent]["samples"]
-    out = accents[accent]["out"]
+    ds = SupervisedDataSet(13, 7)
 
-    for sample in samples:
-        ds.addSample(sample, out)
+    for accent in accents:
+        samples = accents[accent]["samples"]
+        out = accents[accent]["out"]
 
-trainer = BackpropTrainer(net)
-trainer.trainOnDataset(ds, 10000)
-trainer.testOnData(ds, verbose=True)
+        for sample in samples:
+            ds.addSample(sample, out)
 
-NetworkWriter.writeToFile(net, 'models/model-{}.xml'.format(int(time())))
+    trainer = BackpropTrainer(net)
+    trainer.trainOnDataset(ds, 10000)
+    trainer.testOnData(ds, verbose=True)
+
+    NetworkWriter.writeToFile(net, 'models/model-{}.xml'.format(int(time())))
+
+if __name__ == "main":
+    train()

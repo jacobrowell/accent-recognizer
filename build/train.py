@@ -8,7 +8,7 @@ from time import time
 
 
 def train():
-    samples = open("samples.json", "r")
+    samples = open("samples.json", "r")  # REVIEW: possibly out of memory here
     accents = json.load(samples)
 
     net = buildNetwork(13, 3, 7, hiddenclass=TanhLayer)

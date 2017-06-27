@@ -6,16 +6,11 @@ from scikits.talkbox.features import mfcc
 from time import time
 
 
-def prepare_mfcc():
+def prepare_mfcc(dirs):
     """
     This function is used to extract MFCC from previously cleared audion files (see cut_speech.py for that)
     :return: None
     """
-    dirs = [
-        '/home/eugen/student/diploma/code/c20/audioFiles/task80',
-        # '/home/eugen/student/diploma/code/c20/audioFiles/task81',
-        # '/home/eugen/student/diploma/code/c20/audioFiles/task82',
-    ]
 
     accents = dict()
 
@@ -39,8 +34,9 @@ def prepare_mfcc():
                 except ValueError:
                     print "error reading {}".format(name)
                 except:
-                    print "some unexpected error"
+                    print "some unexpected error"  # TODO: remove handling here
 
+            # FIXME: this causes memory overflow
             save_file = open("samples/samples_tmp.json", "w")
             json.dump(accents, save_file, indent=4)
             save_file.close()
@@ -56,6 +52,3 @@ def prepare_mfcc():
     save_file = open("samples/samples-{}.json".format(int(time())), "w")
     json.dump(accents, save_file, indent=4)
     save_file.close()
-
-if __name__ == "main":
-    prepare_mfcc()

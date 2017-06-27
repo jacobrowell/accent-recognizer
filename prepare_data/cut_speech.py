@@ -3,16 +3,11 @@ import glob
 from pydub import AudioSegment, silence
 
 
-def cut_speech():
+def cut_speech(dirs):
     """
     This function is used to cut speech samples into non-silent pieces for further usage in MFCC extraction
     :return: None
     """
-    dirs = [
-        '/home/eugen/student/diploma/code/c20/audioFiles/task80',
-        # '/home/eugen/student/diploma/code/c20/audioFiles/task81',
-        # '/home/eugen/student/diploma/code/c20/audioFiles/task82',
-    ]
 
     for d in dirs:
         for speaker in os.listdir(d):
@@ -28,7 +23,3 @@ def cut_speech():
                     part = sound[frag[0]:frag[1]]
                     part.export('{}/{}/part_{}.wav'.format(d, speaker, i), format="wav")
                     i += 1
-
-
-if __name__ == "main":
-    cut_speech()

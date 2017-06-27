@@ -1,4 +1,5 @@
 import os
+import logging
 from glob import glob
 from pydub import AudioSegment, silence
 
@@ -8,6 +9,8 @@ def cut_speech(dirs):
     This function is used to cut speech samples into non-silent pieces for further usage in MFCC extraction
     :return: None
     """
+
+    logging.basicConfig(filename="logfile.log", level=logging.DEBUG)
 
     for d in dirs:
         for speaker in os.listdir(d):
@@ -23,3 +26,5 @@ def cut_speech(dirs):
                     part = sound[frag[0]:frag[1]]
                     part.export('{}/{}/part_{}.wav'.format(d, speaker, i), format="wav")
                     i += 1
+
+    logging.info("Finished cutting audio samples")

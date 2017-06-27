@@ -1,7 +1,8 @@
 import os
-from glob import glob
 import json
+import logging
 import scipy.io.wavfile
+from glob import glob
 from scikits.talkbox.features import mfcc
 
 
@@ -10,6 +11,8 @@ def prepare_mfcc(dirs):
     This function is used to extract MFCC from previously cleared audion files (see cut_speech.py for that)
     :return: None
     """
+
+    logging.basicConfig(filename="logfile.log", level=logging.DEBUG)
 
     for d in dirs:
         for speaker in os.listdir(d):
@@ -40,4 +43,8 @@ def prepare_mfcc(dirs):
                     json.dump(sample, save_file, indent=4)
                     save_file.close()
                 except ValueError:
-                    print "error reading {}".format(name)
+                    msg = "error reading {}".format(name)
+                    print msg
+                    logging.error(msg)
+
+    logging.info("Finished extracting features")

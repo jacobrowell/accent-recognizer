@@ -5,7 +5,6 @@ from prepare_data.cut_speech import cut_speech
 from prepare_data.prepare_mfcc import prepare_mfcc
 
 # TODO: accept path to files as program parameter
-# TODO: implement logging
 
 dirs = [
     '/home/eugen/student/diploma/code/c20/audioFiles/task80'

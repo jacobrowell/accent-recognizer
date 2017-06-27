@@ -1,3 +1,5 @@
+#!/usr/bin/env python2
+
 from prepare_data.move_files import move_files
 from prepare_data.cut_speech import cut_speech
 from prepare_data.prepare_mfcc import prepare_mfcc
@@ -6,9 +8,7 @@ from prepare_data.prepare_mfcc import prepare_mfcc
 # TODO: implement logging
 
 dirs = [
-    '/home/eugen/student/diploma/code/c20/audioFiles/task80',
-    # '/home/eugen/student/diploma/code/c20/audioFiles/task81',
-    # '/home/eugen/student/diploma/code/c20/audioFiles/task82',
+    '/home/eugen/student/diploma/code/c20/audioFiles/task80'
 ]
 
 move_files(dirs)

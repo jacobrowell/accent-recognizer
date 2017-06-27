@@ -1,5 +1,5 @@
 import os
-import glob
+from glob import glob
 from pydub import AudioSegment, silence
 
 
@@ -11,7 +11,7 @@ def cut_speech(dirs):
 
     for d in dirs:
         for speaker in os.listdir(d):
-            wav_names = glob.glob('{}/{}/*.wav'.format(d, speaker))
+            wav_names = glob('{}/{}/*.wav'.format(d, speaker))
 
             for name in wav_names:
                 print "processing file {}...".format(name)

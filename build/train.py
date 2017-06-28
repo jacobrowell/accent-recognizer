@@ -19,13 +19,16 @@ def train():
     logging.info("Started training network")
 
     try:
-        for speaker in os.listdir('samples'):
-            samples = glob('{}/part*'.format(speaker))
+        speakers = os.listdir('samples')
+        for speaker in speakers:
+            samples = glob('samples/{}/part*'.format(speaker))
             for sample in samples:
                 s = json.load(open(sample))
                 out = [0, 0, 0, 0, 0, 0, 0]
                 out[accents.index(s['accent'])] = 1
-                ds.addSample(s['ceps'], out)
+
+                for c in s['ceps']:
+                    ds.addSample(c, out)
 
         trainer = BackpropTrainer(net)
         trainer.trainOnDataset(ds, 10000)

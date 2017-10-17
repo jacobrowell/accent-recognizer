@@ -5,37 +5,46 @@ import scipy.io.wavfile
 import sys
 from glob import glob
 
-accents = [
-    "CH",
-    "EN",
-    "IN",
-    "IR",
-    "IT",
-    "JA",
-    "KO",
-]
 
-models = glob("models/model*.xml")
-models.sort()
-if len(models) < 1:
-    print "no models found"
-    exit()
+def classify(file_name):
+    accents = [
+        "CH",
+        "EN",
+        "IN",
+        "IR",
+        "IT",
+        "JA",
+        "KO",
+    ]
 
-print "using model: {}".format(models[-1])
+    models = glob("models/model*.xml")
+    models.sort()
+    if len(models) < 1:
+        print "no models found"
+        exit()
 
-net = NetworkReader.readFrom(models[-1])
+    print "using model: {}".format(models[-1])
 
-file_name = sys.argv[1]
-sample_rate, X = scipy.io.wavfile.read(file_name)
-ceps, mspec, spec = mfcc(X)
+    net = NetworkReader.readFrom(models[-1])
 
-x = []
-num_ceps = len(ceps)
-x.append(np.mean(ceps[int(num_ceps / 10):int(num_ceps * 9 / 10)], axis=0))
-vx = np.array(x)
+    sample_rate, X = scipy.io.wavfile.read(file_name)
+    ceps, mspec, spec = mfcc(X)
 
-result = net.activate(vx[0].tolist()).tolist()
-print result
+    x = []
+    num_ceps = len(ceps)
+    x.append(np.mean(ceps[int(num_ceps / 10):int(num_ceps * 9 / 10)], axis=0))
+    vx = np.array(x)
 
-accent = accents[result.index(max(result))]
-print accent
+    result = net.activate(vx[0].tolist()).tolist()
+    # print result
+
+    accent = accents[result.index(max(result))]
+    return accent
+
+
+if __name__ == 'main':
+    filename = sys.argv[1]
+    if not filename or type(filename) != str:
+        filename = input('Provide a path to audio file: ')
+    res = classify(filename)
+    print(res)
